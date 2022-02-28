@@ -4,9 +4,9 @@ import { ConfigFactory } from '../interfaces';
 import { getConfigToken } from './get-config-token.util';
 import { ConfigFactoryKeyHost } from './register-as.util';
 
-export function createConfigProvider(
-  factory: ConfigFactory & ConfigFactoryKeyHost,
-): FactoryProvider {
+export type CustomConfig = ConfigFactory & Partial<ConfigFactoryKeyHost>;
+
+export function createConfigProvider(factory: CustomConfig): FactoryProvider {
   const uniqId = uuid();
   return {
     provide: factory.KEY || getConfigToken(uniqId),

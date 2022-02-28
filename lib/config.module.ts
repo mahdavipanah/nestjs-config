@@ -15,7 +15,6 @@ import {
 } from './config.constants';
 import { ConfigService } from './config.service';
 import { ConfigFactory, ConfigModuleOptions } from './interfaces';
-import { ConfigFactoryKeyHost } from './utils';
 import { createConfigProvider } from './utils/create-config-factory.util';
 import { getRegistrationToken } from './utils/get-registration-token.util';
 import { mergeConfigObject } from './utils/merge-configs.util';
@@ -80,10 +79,8 @@ export class ConfigModule {
 
     const isConfigToLoad = options.load && options.load.length;
     const providers = (options.load || [])
-      .map(factory =>
-        createConfigProvider(factory as ConfigFactory & ConfigFactoryKeyHost),
-      )
-      .filter(item => item) as FactoryProvider[];
+      .map(factory => createConfigProvider(factory))
+      .filter(item => item);
 
     const configProviderTokens = providers.map(item => item.provide);
     const configServiceProvider = {
@@ -140,9 +137,7 @@ export class ConfigModule {
    * @param config
    */
   static forFeature(config: ConfigFactory): DynamicModule {
-    const configProvider = createConfigProvider(
-      config as ConfigFactory & ConfigFactoryKeyHost,
-    );
+    const configProvider = createConfigProvider(config);
     const serviceProvider = {
       provide: ConfigService,
       useFactory: (configService: ConfigService) => configService,
