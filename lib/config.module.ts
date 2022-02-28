@@ -91,7 +91,7 @@ export class ConfigModule {
         }
         return configService;
       },
-      inject: [CONFIGURATION_SERVICE_TOKEN, ...configProviderTokens],
+      inject: [CONFIGURATION_SERVICE_TOKEN],
     };
     providers.push(configServiceProvider);
 
@@ -141,7 +141,7 @@ export class ConfigModule {
     const serviceProvider = {
       provide: ConfigService,
       useFactory: (configService: ConfigService) => configService,
-      inject: [CONFIGURATION_SERVICE_TOKEN, configProvider.provide],
+      inject: [CONFIGURATION_SERVICE_TOKEN],
     };
 
     return {
